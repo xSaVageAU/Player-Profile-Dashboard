@@ -111,17 +111,31 @@
             </div>
 
             <div id="advancements" class="tab-content">
-                <div class="advancements-grid">
-                    {{range .Advancements}}
-                    <div class="advancement-card {{if .Completed}}completed{{end}}">
-                        <div class="advancement-info">
-                            <h4>{{.Title}}</h4>
-                            <p>{{.Description}}</p>
-                        </div>
-                        {{if .Completed}}<div class="completed-badge">✓</div>{{end}}
-                    </div>
+                <div class="sub-tabs-nav">
+                    {{$first := true}}
+                    {{range $category, $advs := .GroupedAdvancements}}
+                    <button class="sub-tab-btn {{if $first}}active{{end}}" data-tab="adv-{{$category}}">{{$category}}</button>
+                    {{$first = false}}
                     {{end}}
                 </div>
+
+                {{$first = true}}
+                {{range $category, $advs := .GroupedAdvancements}}
+                <div class="sub-tab-content {{if $first}}active{{end}}" data-id="adv-{{$category}}">
+                    <div class="advancements-grid">
+                        {{range $advs}}
+                        <div class="advancement-card {{if .Completed}}completed{{end}}">
+                            <div class="advancement-info">
+                                <h4>{{.Title}}</h4>
+                                <p>{{.Description}}</p>
+                            </div>
+                            {{if .Completed}}<div class="completed-badge">✓</div>{{end}}
+                        </div>
+                        {{end}}
+                    </div>
+                </div>
+                {{$first = false}}
+                {{end}}
             </div>
         </div>
     </main>

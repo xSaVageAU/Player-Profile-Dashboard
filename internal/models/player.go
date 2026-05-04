@@ -23,23 +23,25 @@ type Advancement struct {
 	Description string `json:"description"`
 	Icon        string `json:"icon"`
 	Completed   bool   `json:"completed"`
+	Category    string `json:"category"`
 }
 
 // PlayerProfile represents the full data for a single player
 type PlayerProfile struct {
-	UUID         string          `json:"uuid"`
-	Username     string          `json:"username"`
-	SkinURL      string          `json:"skin_url"`
-	Health       float64         `json:"health"`
-	MaxHealth    float64         `json:"max_health"`
-	Hunger       int             `json:"hunger"`
-	Level        int             `json:"level"`
-	Experience   float64         `json:"experience"`
-	Stats        Stats           `json:"stats"`
-	Inventory     []InventorySlot `json:"inventory"`      // Raw 0-35
-	MainInventory []InventorySlot `json:"main_inventory"` // Slots 9-35
-	Hotbar        []InventorySlot `json:"hotbar"`         // Slots 0-8
-	Armor         []InventorySlot `json:"armor"`
-	EnderChest   []InventorySlot `json:"ender_chest"`
-	Advancements []Advancement   `json:"advancements"`
+	UUID                string                   `json:"uuid"`
+	Username            string                   `json:"username"`
+	SkinURL             string                   `json:"skin_url"`
+	Health              float64                  `json:"health"`
+	MaxHealth           float64                  `json:"max_health"`
+	Hunger              int                      `json:"hunger"`
+	Level               int                      `json:"level"`
+	Experience          float64                  `json:"experience"`
+	Stats               Stats                    `json:"stats"`
+	Inventory           []InventorySlot          `json:"inventory"`      // Raw 0-35
+	MainInventory       []InventorySlot          `json:"main_inventory"` // Slots 9-35
+	Hotbar              []InventorySlot          `json:"hotbar"`         // Slots 0-8
+	Armor               []InventorySlot          `json:"armor"`
+	EnderChest          []InventorySlot          `json:"ender_chest"`
+	Advancements        []Advancement            `json:"advancements"`
+	GroupedAdvancements map[string][]Advancement `json:"grouped_advancements"`
 }

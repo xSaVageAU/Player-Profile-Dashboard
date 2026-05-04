@@ -99,10 +99,40 @@ func ProfileHandler(tmpl *template.Template, natsClient *nats.Client) http.Handl
 						}
 					}
 
-					if statsRoot, ok := bundle.Stats["stats"].(map[string]interface{}); ok {
-						if custom, ok := statsRoot["minecraft:custom"].(map[string]interface{}); ok {
+					// Helper to get a map from a map
+					getMap := func(m interface{}, key string) map[interface{}]interface{} {
+						if m == nil { return nil }
+						switch mm := m.(type) {
+						case map[string]interface{}:
+							if v, ok := mm[key]; ok {
+								if res, ok := v.(map[interface{}]interface{}); ok { return res }
+								if res, ok := v.(map[string]interface{}); ok {
+									// Convert string map to interface map
+									out := make(map[interface{}]interface{})
+									for k, val := range res { out[k] = val }
+									return out
+								}
+							}
+						case map[interface{}]interface{}:
+							if v, ok := mm[key]; ok {
+								if res, ok := v.(map[interface{}]interface{}); ok { return res }
+								if res, ok := v.(map[string]interface{}); ok {
+									out := make(map[interface{}]interface{})
+									for k, val := range res { out[k] = val }
+									return out
+								}
+							}
+						}
+						return nil
+					}
+
+					statsRoot := getMap(bundle.Stats, "stats")
+					if statsRoot != nil {
+						custom := getMap(statsRoot, "minecraft:custom")
+						if custom != nil {
 							profile.Stats.Kills = toInt(custom["minecraft:mob_kills"])
 							profile.Stats.Deaths = toInt(custom["minecraft:deaths"])
+							profile.Stats.Balance = 0 // Will fetch from econ bucket later
 							
 							playtime := int64(toInt(custom["minecraft:play_time"]))
 							if playtime > 0 {
@@ -113,7 +143,7 @@ func ProfileHandler(tmpl *template.Template, natsClient *nats.Client) http.Handl
 							}
 						}
 						// Blocks broken
-						if broken, ok := statsRoot["minecraft:mined"].(map[string]interface{}); ok {
+						if broken := getMap(statsRoot, "minecraft:mined"); broken != nil {
 							total := 0
 							for _, val := range broken {
 								total += toInt(val)
@@ -211,6 +241,45 @@ func ProfileHandler(tmpl *template.Template, natsClient *nats.Client) http.Handl
 									}
 								}
 							}
+						}
+					}
+					// Map Advancements
+					log.Printf("Found %d advancements in bundle", len(bundle.Advancements))
+					profile.Advancements = []models.Advancement{}
+					profile.GroupedAdvancements = make(map[string][]models.Advancement)
+					
+					for key, val := range bundle.Advancements {
+						if strings.HasPrefix(key, "minecraft:recipes/") {
+							continue
+						}
+						
+						advData, ok := val.(map[interface{}]interface{})
+						if !ok { 
+							sMap, ok := val.(map[string]interface{})
+							if !ok { continue }
+							advData = make(map[interface{}]interface{})
+							for k, v := range sMap { advData[k] = v }
+						}
+						
+						if done, ok := advData["done"].(bool); ok && done {
+							category := "Other"
+							parts := strings.Split(strings.TrimPrefix(key, "minecraft:"), "/")
+							if len(parts) > 0 {
+								category = strings.Title(parts[0])
+							}
+							
+							title := parts[len(parts)-1]
+							title = strings.ReplaceAll(title, "_", " ")
+							title = strings.Title(title)
+							
+							adv := models.Advancement{
+								Title: title,
+								Completed: true,
+								Category: category,
+							}
+							
+							profile.Advancements = append(profile.Advancements, adv)
+							profile.GroupedAdvancements[category] = append(profile.GroupedAdvancements[category], adv)
 						}
 					}
 				}
