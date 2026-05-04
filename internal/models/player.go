@@ -36,8 +36,10 @@ type PlayerProfile struct {
 	Level        int             `json:"level"`
 	Experience   float64         `json:"experience"`
 	Stats        Stats           `json:"stats"`
-	Inventory    []InventorySlot `json:"inventory"`
-	Armor        []InventorySlot `json:"armor"`
+	Inventory     []InventorySlot `json:"inventory"`      // Raw 0-35
+	MainInventory []InventorySlot `json:"main_inventory"` // Slots 9-35
+	Hotbar        []InventorySlot `json:"hotbar"`         // Slots 0-8
+	Armor         []InventorySlot `json:"armor"`
 	EnderChest   []InventorySlot `json:"ender_chest"`
 	Advancements []Advancement   `json:"advancements"`
 }

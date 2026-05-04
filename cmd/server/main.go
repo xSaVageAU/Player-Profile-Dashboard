@@ -41,7 +41,7 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	// 5. Routes
-	http.HandleFunc("/", handlers.ProfileHandler(tmpl))
+	http.HandleFunc("/", handlers.ProfileHandler(tmpl, natsClient))
 
 	// 6. Start Server
 	port := fmt.Sprintf(":%d", cfg.Server.Port)

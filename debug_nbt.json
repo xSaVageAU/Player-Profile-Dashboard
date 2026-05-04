@@ -1,0 +1,136 @@
+{
+  "AbsorptionAmount": 0,
+  "EnderItems": [
+    {
+      "Slot": 0,
+      "count": 2,
+      "id": "minecraft:gunpowder"
+    },
+    {
+      "Slot": 11,
+      "count": 1,
+      "id": "minecraft:enchanted_golden_apple"
+    },
+    {
+      "Slot": 12,
+      "count": 1,
+      "id": "minecraft:enchanted_golden_apple"
+    },
+    {
+      "Slot": 13,
+      "count": 1,
+      "id": "minecraft:enchanted_golden_apple"
+    }
+  ],
+  "Health": 8.858358,
+  "Inventory": [
+    {
+      "Slot": 0,
+      "components": {
+        "minecraft:damage": 3,
+        "minecraft:enchantments": {
+          "minecraft:sharpness": 5,
+          "minecraft:unbreaking": 3
+        }
+      },
+      "count": 1,
+      "id": "minecraft:netherite_axe"
+    },
+    {
+      "Slot": 1,
+      "count": 61,
+      "id": "minecraft:enchanted_golden_apple"
+    },
+    {
+      "Slot": 2,
+      "count": 1,
+      "id": "minecraft:chest"
+    },
+    {
+      "Slot": 3,
+      "count": 5,
+      "id": "minecraft:bone"
+    },
+    {
+      "Slot": 4,
+      "count": 4,
+      "id": "minecraft:arrow"
+    },
+    {
+      "Slot": 5,
+      "count": 1,
+      "id": "minecraft:dirt"
+    },
+    {
+      "Slot": 6,
+      "count": 61,
+      "id": "minecraft:carrot"
+    },
+    {
+      "Slot": 7,
+      "count": 2,
+      "id": "minecraft:oak_sign"
+    },
+    {
+      "Slot": 8,
+      "count": 1,
+      "id": "minecraft:ender_chest"
+    },
+    {
+      "Slot": 10,
+      "count": 2,
+      "id": "minecraft:rotten_flesh"
+    }
+  ],
+  "SelectedItemSlot": 0,
+  "XpLevel": 26,
+  "XpP": 0.06521773,
+  "XpTotal": 1003,
+  "equipment": {
+    "chest": {
+      "components": {
+        "minecraft:damage": 138,
+        "minecraft:enchantments": {
+          "minecraft:protection": 4
+        }
+      },
+      "count": 1,
+      "id": "minecraft:netherite_chestplate"
+    },
+    "feet": {
+      "components": {
+        "minecraft:damage": 138,
+        "minecraft:enchantments": {
+          "minecraft:protection": 4
+        }
+      },
+      "count": 1,
+      "id": "minecraft:netherite_boots"
+    },
+    "head": {
+      "components": {
+        "minecraft:damage": 138,
+        "minecraft:enchantments": {
+          "minecraft:protection": 4
+        }
+      },
+      "count": 1,
+      "id": "minecraft:netherite_helmet"
+    },
+    "legs": {
+      "components": {
+        "minecraft:damage": 138,
+        "minecraft:enchantments": {
+          "minecraft:protection": 4
+        }
+      },
+      "count": 1,
+      "id": "minecraft:netherite_leggings"
+    }
+  },
+  "foodExhaustionLevel": 0.12601757,
+  "foodLevel": 20,
+  "foodSaturationLevel": 0,
+  "foodTickTimer": 44,
+  "seenCredits": 0
+}

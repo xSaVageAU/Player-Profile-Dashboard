@@ -40,6 +40,15 @@
 }
 
 /* Inventory Grid */
+.inventory-separator {
+    height: 12px;
+    width: 100%;
+}
+
+.hotbar-grid {
+    margin-top: 0;
+}
+
 .inventory-grid {
     display: grid;
     grid-template-columns: repeat(9, 1fr);

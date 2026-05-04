@@ -12,9 +12,11 @@ type Config struct {
 }
 
 type NATSConfig struct {
-	URL    string `yaml:"url"`
-	Token  string `yaml:"token"`
-	Bucket string `yaml:"bucket"`
+	URL            string `yaml:"url"`
+	Token          string `yaml:"token"`
+	Bucket         string `yaml:"bucket"`
+	EconomyBucket  string `yaml:"economy_bucket"`
+	EconomySubject string `yaml:"economy_subject"`
 }
 
 type ServerConfig struct {

@@ -72,7 +72,19 @@
 
             <div id="inventory" class="tab-content">
                 <div class="inventory-grid">
-                    {{range .Inventory}}
+                    {{range .MainInventory}}
+                    <div class="slot" title="{{.Name}}">
+                        {{if .ID}}
+                            <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{.ID}}.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="{{.Name}}">
+                            <span class="item-id" style="display:none; font-size: 0.5rem; text-align: center;">{{.ID}}</span>
+                            {{if gt .Count 1}}<span class="slot-count">{{.Count}}</span>{{end}}
+                        {{end}}
+                    </div>
+                    {{end}}
+                </div>
+                <div class="inventory-separator"></div>
+                <div class="inventory-grid hotbar-grid">
+                    {{range .Hotbar}}
                     <div class="slot" title="{{.Name}}">
                         {{if .ID}}
                             <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{.ID}}.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="{{.Name}}">
