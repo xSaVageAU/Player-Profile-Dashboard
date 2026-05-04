@@ -1,0 +1,7 @@
+nats:
+  url: "nats://localhost:4222"
+  token: "REPLACE_WITH_YOUR_TOKEN"
+  bucket: "player-sync-v1"
+
+server:
+  port: 8080
