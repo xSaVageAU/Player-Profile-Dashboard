@@ -130,9 +130,22 @@ func ProfileHandler(tmpl *template.Template, natsClient *nats.Client) http.Handl
 					if statsRoot != nil {
 						custom := getMap(statsRoot, "minecraft:custom")
 						if custom != nil {
-							profile.Stats.Kills = toInt(custom["minecraft:mob_kills"])
+							profile.Stats.MobKills = toInt(custom["minecraft:mob_kills"])
+							profile.Stats.PlayerKills = toInt(custom["minecraft:player_kills"])
 							profile.Stats.Deaths = toInt(custom["minecraft:deaths"])
-							profile.Stats.Balance = 0 // Will fetch from econ bucket later
+							profile.Stats.Balance = 0 
+							
+							// Distance Traveled (sum various movement stats)
+							var totalDist int
+							movementKeys := []string{
+								"minecraft:walk_one_cm", "minecraft:sprint_one_cm", "minecraft:swim_one_cm",
+								"minecraft:fly_one_cm", "minecraft:aviate_one_cm", "minecraft:boat_one_cm",
+								"minecraft:horse_one_cm", "minecraft:minecart_one_cm",
+							}
+							for _, k := range movementKeys {
+								totalDist += toInt(custom[k])
+							}
+							profile.Stats.DistanceTraveled = float64(totalDist) / 100000.0 // cm to km
 							
 							playtime := int64(toInt(custom["minecraft:play_time"]))
 							if playtime > 0 {
@@ -142,7 +155,7 @@ func ProfileHandler(tmpl *template.Template, natsClient *nats.Client) http.Handl
 								profile.Stats.TimePlayed = fmt.Sprintf("%dh %dm", hours, mins)
 							}
 						}
-						// Blocks broken
+						// Blocks broken (already calculated for summary)
 						if broken := getMap(statsRoot, "minecraft:mined"); broken != nil {
 							total := 0
 							for _, val := range broken {
@@ -150,6 +163,27 @@ func ProfileHandler(tmpl *template.Template, natsClient *nats.Client) http.Handl
 							}
 							profile.Stats.BlocksBroken = total
 						}
+
+						// Detailed Item Stats
+						mapToIntMap := func(m map[interface{}]interface{}) map[string]int {
+							out := make(map[string]int)
+							for k, v := range m {
+								if ks, ok := k.(string); ok {
+									val := toInt(v)
+									if val > 0 {
+										out[strings.TrimPrefix(ks, "minecraft:")] = val
+									}
+								}
+							}
+							return out
+						}
+
+						profile.Stats.Mined = mapToIntMap(getMap(statsRoot, "minecraft:mined"))
+						profile.Stats.Broken = mapToIntMap(getMap(statsRoot, "minecraft:broken"))
+						profile.Stats.Crafted = mapToIntMap(getMap(statsRoot, "minecraft:crafted"))
+						profile.Stats.Used = mapToIntMap(getMap(statsRoot, "minecraft:used"))
+						profile.Stats.PickedUp = mapToIntMap(getMap(statsRoot, "minecraft:picked_up"))
+						profile.Stats.Dropped = mapToIntMap(getMap(statsRoot, "minecraft:dropped"))
 					}
 					
 					if balance, ok := bundle.Stats["balance"].(float64); ok {

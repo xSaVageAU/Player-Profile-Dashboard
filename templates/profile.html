@@ -50,22 +50,120 @@
             </div>
 
             <div id="stats" class="tab-content active">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <span class="stat-value">{{.Stats.Kills}}</span>
-                        <span class="stat-label">Total Kills</span>
+                <div class="sub-tabs-nav">
+                    <button class="sub-tab-btn active" data-tab="stats-general">General</button>
+                    <button class="sub-tab-btn" data-tab="stats-items">Items</button>
+                </div>
+
+                <div class="sub-tab-content active" data-id="stats-general">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-value">{{.Stats.MobKills}}</span>
+                            <span class="stat-label">Mob Kills</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value">{{.Stats.PlayerKills}}</span>
+                            <span class="stat-label">Player Kills</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value">{{.Stats.Deaths}}</span>
+                            <span class="stat-label">Total Deaths</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value">{{.Stats.BlocksBroken}}</span>
+                            <span class="stat-label">Blocks Broken</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value">{{printf "%.2f" .Stats.DistanceTraveled}}km</span>
+                            <span class="stat-label">Distance Traveled</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value">{{.Stats.TimePlayed}}</span>
+                            <span class="stat-label">Time Played</span>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <span class="stat-value">{{.Stats.Deaths}}</span>
-                        <span class="stat-label">Total Deaths</span>
+                </div>
+
+                <div class="sub-tab-content" data-id="stats-items">
+                    <div class="sub-tabs-nav tertiary">
+                        <button class="sub-tab-btn active" data-tab="items-mined">Mined</button>
+                        <button class="sub-tab-btn" data-tab="items-crafted">Crafted</button>
+                        <button class="sub-tab-btn" data-tab="items-used">Used</button>
+                        <button class="sub-tab-btn" data-tab="items-broken">Broken</button>
+                        <button class="sub-tab-btn" data-tab="items-picked">Picked Up</button>
+                        <button class="sub-tab-btn" data-tab="items-dropped">Dropped</button>
                     </div>
-                    <div class="stat-card">
-                        <span class="stat-value">{{.Stats.BlocksBroken}}</span>
-                        <span class="stat-label">Blocks Broken</span>
+
+                    <div class="sub-tab-content active" data-id="items-mined">
+                        <div class="item-stat-list grid">
+                            {{range $item, $count := .Stats.Mined}}
+                            <div class="item-stat-row">
+                                <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{$item}}.png" onerror="this.src='https://assets.mcasset.cloud/1.21/assets/minecraft/textures/block/{{$item}}.png'; this.onerror=null;">
+                                <span class="item-name">{{$item}}</span>
+                                <span class="item-count">{{$count}}</span>
+                            </div>
+                            {{end}}
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <span class="stat-value">{{.Stats.TimePlayed}}</span>
-                        <span class="stat-label">Time Played</span>
+
+                    <div class="sub-tab-content" data-id="items-crafted">
+                        <div class="item-stat-list grid">
+                            {{range $item, $count := .Stats.Crafted}}
+                            <div class="item-stat-row">
+                                <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{$item}}.png" onerror="this.onerror=null;">
+                                <span class="item-name">{{$item}}</span>
+                                <span class="item-count">{{$count}}</span>
+                            </div>
+                            {{end}}
+                        </div>
+                    </div>
+
+                    <div class="sub-tab-content" data-id="items-used">
+                        <div class="item-stat-list grid">
+                            {{range $item, $count := .Stats.Used}}
+                            <div class="item-stat-row">
+                                <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{$item}}.png" onerror="this.onerror=null;">
+                                <span class="item-name">{{$item}}</span>
+                                <span class="item-count">{{$count}}</span>
+                            </div>
+                            {{end}}
+                        </div>
+                    </div>
+
+                    <div class="sub-tab-content" data-id="items-broken">
+                        <div class="item-stat-list grid">
+                            {{range $item, $count := .Stats.Broken}}
+                            <div class="item-stat-row">
+                                <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{$item}}.png" onerror="this.onerror=null;">
+                                <span class="item-name">{{$item}}</span>
+                                <span class="item-count">{{$count}}</span>
+                            </div>
+                            {{end}}
+                        </div>
+                    </div>
+
+                    <div class="sub-tab-content" data-id="items-picked">
+                        <div class="item-stat-list grid">
+                            {{range $item, $count := .Stats.PickedUp}}
+                            <div class="item-stat-row">
+                                <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{$item}}.png" onerror="this.onerror=null;">
+                                <span class="item-name">{{$item}}</span>
+                                <span class="item-count">{{$count}}</span>
+                            </div>
+                            {{end}}
+                        </div>
+                    </div>
+
+                    <div class="sub-tab-content" data-id="items-dropped">
+                        <div class="item-stat-list grid">
+                            {{range $item, $count := .Stats.Dropped}}
+                            <div class="item-stat-row">
+                                <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{$item}}.png" onerror="this.onerror=null;">
+                                <span class="item-name">{{$item}}</span>
+                                <span class="item-count">{{$count}}</span>
+                            </div>
+                            {{end}}
+                        </div>
                     </div>
                 </div>
             </div>

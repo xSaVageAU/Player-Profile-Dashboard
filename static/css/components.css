@@ -183,21 +183,46 @@
 }
 
 /* Equipment / Armor */
+.sub-tabs-nav {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sub-tabs-nav.tertiary {
+    background: rgba(0, 0, 0, 0.5);
+    margin-top: 0;
+    margin-bottom: 24px;
+    padding: 6px;
+    top: 50px; /* Offset for second level sticky */
+}
+
+.sub-tabs-nav.tertiary .sub-tab-btn {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+}
+
 .armor-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
 }
 
-/* Sub-Tabs */
-.sub-tabs-nav {
-    display: flex;
+/* Sub-Tabs Navigation */
+
+.item-stat-list.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 12px;
-    margin-bottom: 20px;
-    padding: 8px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    overflow-x: auto;
 }
 
 .sub-tab-btn {
@@ -304,4 +329,55 @@
 .stat-card:hover {
     transform: translateY(-5px);
     background: rgba(255, 255, 255, 0.05);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.item-stats-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.item-stat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.item-stat-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 6px;
+    transition: background 0.2s ease;
+}
+
+.item-stat-row:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.item-stat-row img {
+    width: 24px;
+    height: 24px;
+    image-rendering: pixelated;
+}
+
+.item-stat-row .item-name {
+    flex: 1;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-transform: capitalize;
+}
+
+.item-stat-row .item-count {
+    font-weight: 700;
+    color: var(--accent-gold);
+    font-size: 1rem;
 }

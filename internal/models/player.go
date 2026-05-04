@@ -10,11 +10,19 @@ type InventorySlot struct {
 
 // Stats represents various player statistics
 type Stats struct {
-	Kills        int     `json:"kills"`
-	Deaths       int     `json:"deaths"`
-	BlocksBroken int     `json:"blocks_broken"`
-	TimePlayed   string  `json:"time_played"`
-	Balance      float64 `json:"balance"`
+	MobKills         int     `json:"mob_kills"`
+	PlayerKills      int     `json:"player_kills"`
+	Deaths           int     `json:"deaths"`
+	BlocksBroken     int     `json:"blocks_broken"`
+	DistanceTraveled float64 `json:"distance_traveled"` // in km
+	TimePlayed       string  `json:"time_played"`
+	Balance          float64        `json:"balance"`
+	Mined            map[string]int `json:"mined"`
+	Broken           map[string]int `json:"broken"`
+	Crafted          map[string]int `json:"crafted"`
+	Used             map[string]int `json:"used"`
+	PickedUp         map[string]int `json:"picked_up"`
+	Dropped          map[string]int `json:"dropped"`
 }
 
 // Advancement represents a player's achievement

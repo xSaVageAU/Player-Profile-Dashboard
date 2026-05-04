@@ -42,19 +42,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Setup sub-tabs
+    // Setup sub-tabs (Works for nested levels)
     document.addEventListener('click', (e) => {
         if (e.target.classList.contains('sub-tab-btn')) {
             const btn = e.target;
-            const group = btn.parentElement;
+            const navGroup = btn.parentElement;
+            const container = navGroup.parentElement;
             const tabId = btn.dataset.tab;
             
-            group.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+            // Update buttons in this specific nav group
+            navGroup.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             
-            group.parentElement.querySelectorAll('.sub-tab-content').forEach(c => {
-                c.classList.remove('active');
-                if (c.dataset.id === tabId) c.classList.add('active');
+            // Update content blocks in this specific container
+            // Only targets children of the same parent to avoid deep nesting issues
+            Array.from(container.children).forEach(c => {
+                if (c.classList.contains('sub-tab-content')) {
+                    c.classList.remove('active');
+                    if (c.dataset.id === tabId) c.classList.add('active');
+                }
             });
         }
     });
