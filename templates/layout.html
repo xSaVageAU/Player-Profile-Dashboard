@@ -1,0 +1,42 @@
+{{define "layout"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Username}}'s Profile | Minecraft Viewer</title>
+    <meta name="description" content="View {{.Username}}'s Minecraft stats, inventory, and achievements.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/css/layout.css">
+    <link rel="stylesheet" href="/static/css/components.css">
+    <!-- SkinView3D (Local) -->
+    <script src="/static/js/skinview3d.bundle.js"></script>
+</head>
+<body>
+    <header class="container">
+        <nav style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0;">
+            <div class="logo" style="font-size: 1.5rem; font-weight: 700; color: var(--accent-purple);">MCPROFILE</div>
+        </nav>
+    </header>
+
+    <main>
+        {{template "content" .}}
+    </main>
+
+    <footer class="container" style="text-align: center; padding: 4rem 0; color: var(--text-secondary); font-size: 0.875rem;">
+        <p>&copy; 2026 Minecraft Profile Viewer. Not an official Minecraft product.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/static/js/viewer.js"></script>
+    <script src="/static/js/tabs.js"></script>
+</body>
+</html>
+{{end}}

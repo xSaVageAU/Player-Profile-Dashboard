@@ -1,0 +1,117 @@
+{{define "content"}}
+<div class="dashboard-wrapper">
+    <!-- Sidebar: Player Identity & 3D Model -->
+    <aside class="sidebar">
+        <div class="sidebar-card">
+            <div id="skin-viewer" class="skin-viewer-container" data-skin="{{.SkinURL}}"></div>
+            
+            <div class="player-identity">
+                <h1 class="player-name">{{.Username}}</h1>
+                <p class="player-uuid">UUID: {{.UUID}}</p>
+                
+                <div class="quick-vitals">
+                    <div class="vital-pill">
+                        <span class="vital-label">LVL</span>
+                        <span class="vital-value" style="color: var(--accent-purple);">{{.Level}}</span>
+                    </div>
+                    <div class="vital-pill">
+                        <span class="vital-label">HP</span>
+                        <span class="vital-value" style="color: #ef4444;">{{.Health}}/{{.MaxHealth}}</span>
+                    </div>
+                    <div class="vital-pill">
+                        <span class="vital-label">BAL</span>
+                        <span class="vital-value" style="color: var(--accent-gold);">${{.Stats.Balance}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card armor-section">
+                <h3>Equipment</h3>
+                <div class="armor-grid">
+                    {{range .Armor}}
+                    <div class="slot" title="{{.Name}}">
+                        {{if .ID}}<img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{.ID}}.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="{{.Name}}">
+                        <span class="item-id" style="display:none; font-size: 0.5rem; text-align: center;">{{.ID}}</span>{{end}}
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content: Tabs & Details -->
+    <main class="main-content">
+        <div class="tabs-container">
+            <div class="tabs-nav">
+                <button class="tab-btn active" data-tab="stats">Statistics</button>
+                <button class="tab-btn" data-tab="inventory">Inventory</button>
+                <button class="tab-btn" data-tab="enderchest">Ender Chest</button>
+                <button class="tab-btn" data-tab="advancements">Advancements</button>
+            </div>
+
+            <div id="stats" class="tab-content active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-value">{{.Stats.Kills}}</span>
+                        <span class="stat-label">Total Kills</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value">{{.Stats.Deaths}}</span>
+                        <span class="stat-label">Total Deaths</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value">{{.Stats.BlocksBroken}}</span>
+                        <span class="stat-label">Blocks Broken</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value">{{.Stats.TimePlayed}}</span>
+                        <span class="stat-label">Time Played</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="inventory" class="tab-content">
+                <div class="inventory-grid">
+                    {{range .Inventory}}
+                    <div class="slot" title="{{.Name}}">
+                        {{if .ID}}
+                            <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{.ID}}.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="{{.Name}}">
+                            <span class="item-id" style="display:none; font-size: 0.5rem; text-align: center;">{{.ID}}</span>
+                            {{if gt .Count 1}}<span class="slot-count">{{.Count}}</span>{{end}}
+                        {{end}}
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+
+            <div id="enderchest" class="tab-content">
+                <div class="inventory-grid">
+                    {{range .EnderChest}}
+                    <div class="slot" title="{{.Name}}">
+                        {{if .ID}}
+                            <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{.ID}}.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="{{.Name}}">
+                            <span class="item-id" style="display:none; font-size: 0.5rem; text-align: center;">{{.ID}}</span>
+                            {{if gt .Count 1}}<span class="slot-count">{{.Count}}</span>{{end}}
+                        {{end}}
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+
+            <div id="advancements" class="tab-content">
+                <div class="advancements-grid">
+                    {{range .Advancements}}
+                    <div class="advancement-card {{if .Completed}}completed{{end}}">
+                        <div class="advancement-info">
+                            <h4>{{.Title}}</h4>
+                            <p>{{.Description}}</p>
+                        </div>
+                        {{if .Completed}}<div class="completed-badge">✓</div>{{end}}
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{{end}}
