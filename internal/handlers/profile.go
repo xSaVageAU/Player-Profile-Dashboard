@@ -225,13 +225,22 @@ func ProfileHandler(tmpl *template.Template, natsClient *nats.Client) http.Handl
 								if count == 0 { count = 1 } // Default if missing
 								
 								cleanID := strings.TrimPrefix(id, "minecraft:")
+								
+								// Enchantment Detection
+								isEnchanted := strings.Contains(cleanID, "enchanted")
+								if tag, ok := item["tag"].(map[string]interface{}); ok {
+									if _, ok := tag["Enchantments"]; ok { isEnchanted = true }
+									if _, ok := tag["StoredEnchantments"]; ok { isEnchanted = true }
+								}
+
 								itemObj := models.InventorySlot{
 									ID: cleanID, Count: count, Name: cleanID,
+									IsEnchanted: isEnchanted,
 								}
 
 								if slot >= 0 && slot < 36 {
 									profile.Inventory[slot] = itemObj
-									log.Printf("Mapped Inv Slot %d: %s x%d", slot, cleanID, count)
+									log.Printf("Mapped Inv Slot %d: %s x%d (Enchanted: %v)", slot, cleanID, count, isEnchanted)
 								}
 							}
 						}
@@ -249,8 +258,15 @@ func ProfileHandler(tmpl *template.Template, natsClient *nats.Client) http.Handl
 									count := toInt(itemRaw["count"])
 									if count == 0 { count = 1 }
 									cleanID := strings.TrimPrefix(id, "minecraft:")
+									
+									isEnchanted := strings.Contains(cleanID, "enchanted")
+									if tag, ok := itemRaw["tag"].(map[string]interface{}); ok {
+										if _, ok := tag["Enchantments"]; ok { isEnchanted = true }
+									}
+
 									profile.Armor[idx] = models.InventorySlot{
 										ID: cleanID, Count: count, Name: cleanID,
+										IsEnchanted: isEnchanted,
 									}
 								}
 							}
@@ -269,9 +285,15 @@ func ProfileHandler(tmpl *template.Template, natsClient *nats.Client) http.Handl
 								if count == 0 { count = 1 }
 								
 								cleanID := strings.TrimPrefix(id, "minecraft:")
+								isEnchanted := strings.Contains(cleanID, "enchanted")
+								if tag, ok := item["tag"].(map[string]interface{}); ok {
+									if _, ok := tag["Enchantments"]; ok { isEnchanted = true }
+								}
+
 								if slot >= 0 && slot < 27 {
 									profile.EnderChest[slot] = models.InventorySlot{
 										ID: cleanID, Count: count, Name: cleanID,
+										IsEnchanted: isEnchanted,
 									}
 								}
 							}

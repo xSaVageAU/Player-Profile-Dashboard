@@ -30,7 +30,7 @@
                 <div class="armor-grid">
                     {{range .Armor}}
                     <div class="slot" title="{{.Name}}">
-                        {{if .ID}}<img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{.ID}}.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="{{.Name}}">
+                        {{if .ID}}<img data-item-id="{{.ID}}">
                         <span class="item-id" style="display:none; font-size: 0.5rem; text-align: center;">{{.ID}}</span>{{end}}
                     </div>
                     {{end}}
@@ -98,7 +98,7 @@
                         <div class="item-stat-list grid">
                             {{range $item, $count := .Stats.Mined}}
                             <div class="item-stat-row">
-                                <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{$item}}.png" onerror="this.src='https://assets.mcasset.cloud/1.21/assets/minecraft/textures/block/{{$item}}.png'; this.onerror=null;">
+                                <img data-item-id="{{$item}}">
                                 <span class="item-name">{{$item}}</span>
                                 <span class="item-count">{{$count}}</span>
                             </div>
@@ -110,7 +110,7 @@
                         <div class="item-stat-list grid">
                             {{range $item, $count := .Stats.Crafted}}
                             <div class="item-stat-row">
-                                <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{$item}}.png" onerror="this.onerror=null;">
+                                <img data-item-id="{{$item}}">
                                 <span class="item-name">{{$item}}</span>
                                 <span class="item-count">{{$count}}</span>
                             </div>
@@ -122,7 +122,7 @@
                         <div class="item-stat-list grid">
                             {{range $item, $count := .Stats.Used}}
                             <div class="item-stat-row">
-                                <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{$item}}.png" onerror="this.onerror=null;">
+                                <img data-item-id="{{$item}}">
                                 <span class="item-name">{{$item}}</span>
                                 <span class="item-count">{{$count}}</span>
                             </div>
@@ -134,7 +134,7 @@
                         <div class="item-stat-list grid">
                             {{range $item, $count := .Stats.Broken}}
                             <div class="item-stat-row">
-                                <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{$item}}.png" onerror="this.onerror=null;">
+                                <img data-item-id="{{$item}}">
                                 <span class="item-name">{{$item}}</span>
                                 <span class="item-count">{{$count}}</span>
                             </div>
@@ -146,7 +146,7 @@
                         <div class="item-stat-list grid">
                             {{range $item, $count := .Stats.PickedUp}}
                             <div class="item-stat-row">
-                                <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{$item}}.png" onerror="this.onerror=null;">
+                                <img data-item-id="{{$item}}">
                                 <span class="item-name">{{$item}}</span>
                                 <span class="item-count">{{$count}}</span>
                             </div>
@@ -158,7 +158,7 @@
                         <div class="item-stat-list grid">
                             {{range $item, $count := .Stats.Dropped}}
                             <div class="item-stat-row">
-                                <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{$item}}.png" onerror="this.onerror=null;">
+                                <img data-item-id="{{$item}}">
                                 <span class="item-name">{{$item}}</span>
                                 <span class="item-count">{{$count}}</span>
                             </div>
@@ -173,7 +173,7 @@
                     {{range .MainInventory}}
                     <div class="slot" title="{{.Name}}">
                         {{if .ID}}
-                            <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{.ID}}.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="{{.Name}}">
+                            <img data-item-id="{{.ID}}">
                             <span class="item-id" style="display:none; font-size: 0.5rem; text-align: center;">{{.ID}}</span>
                             {{if gt .Count 1}}<span class="slot-count">{{.Count}}</span>{{end}}
                         {{end}}
@@ -185,7 +185,7 @@
                     {{range .Hotbar}}
                     <div class="slot" title="{{.Name}}">
                         {{if .ID}}
-                            <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{.ID}}.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="{{.Name}}">
+                            <img data-item-id="{{.ID}}">
                             <span class="item-id" style="display:none; font-size: 0.5rem; text-align: center;">{{.ID}}</span>
                             {{if gt .Count 1}}<span class="slot-count">{{.Count}}</span>{{end}}
                         {{end}}
@@ -199,7 +199,7 @@
                     {{range .EnderChest}}
                     <div class="slot" title="{{.Name}}">
                         {{if .ID}}
-                            <img src="https://assets.mcasset.cloud/1.21/assets/minecraft/textures/item/{{.ID}}.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="{{.Name}}">
+                            <img data-item-id="{{.ID}}">
                             <span class="item-id" style="display:none; font-size: 0.5rem; text-align: center;">{{.ID}}</span>
                             {{if gt .Count 1}}<span class="slot-count">{{.Count}}</span>{{end}}
                         {{end}}
@@ -238,4 +238,87 @@
         </div>
     </main>
 </div>
+
+<script>
+function loadItemIcon(img, originalId) {
+    if (!originalId) return;
+    
+    let id = originalId.toLowerCase().replace('minecraft:', '');
+
+    // Map block IDs to their item counterparts (mostly for statistics)
+    const overrides = {
+        'sweet_berry_bush': 'sweet_berries',
+        'wall_torch': 'torch',
+        'cave_vines': 'glow_berries',
+        'cave_vines_plant': 'glow_berries',
+        'melon_stem': 'melon_seeds',
+        'pumpkin_stem': 'pumpkin_seeds',
+        'cocoa': 'cocoa_beans',
+        'carrots': 'carrot',
+        'potatoes': 'potato',
+        'beetroots': 'beetroot_seeds',
+        'kelp_plant': 'kelp',
+        'twisting_vines_plant': 'twisting_vines',
+        'weeping_vines_plant': 'weeping_vines',
+        'bamboo_sapling': 'bamboo',
+        'water': 'water_bucket',
+        'lava': 'lava_bucket',
+        'fire': 'flint_and_steel'
+    };
+
+    if (overrides[id]) {
+        id = overrides[id];
+    } else if (id.startsWith('potted_')) {
+        id = id.replace('potted_', '');
+    } else if (id.endsWith('_wall_torch')) {
+        id = id.replace('_wall_torch', '_torch');
+    } else if (id.endsWith('_wall_sign')) {
+        id = id.replace('_wall_sign', '_sign');
+    } else if (id.endsWith('_wall_skull') || id.endsWith('_wall_head')) {
+        id = id.replace('_wall_', '_');
+    }
+    
+    // Generate TitleCase version (e.g., enchanted_golden_apple -> Enchanted_Golden_Apple)
+    const titleCaseId = id.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('_');
+    const variations = [id, titleCaseId];
+    if (id === 'enchanted_golden_apple') variations.push('golden_apple', 'Golden_Apple');
+
+    const sources = [];
+    variations.forEach(v => {
+        sources.push(
+            `https://raw.githubusercontent.com/Owen1212055/mc-assets/main/item-assets/${v.toUpperCase()}.png`,
+            `https://minecraft.wiki/images/Invicon_${v}.png`,
+            `https://minecraft-api.vercel.app/images/items/${v}.png`,
+            `https://minecraft-api.vercel.app/images/blocks/${v}.png`,
+            `https://visage.surgeplay.com/block/64/${v}`,
+            `https://mc-heads.net/block/${v}`,
+            `https://assets.mcasset.cloud/26.1.2/assets/minecraft/textures/item/${v.toLowerCase()}.png`,
+            `https://assets.mcasset.cloud/26.1.2/assets/minecraft/textures/block/${v.toLowerCase()}.png`,
+            `https://assets.mcasset.cloud/1.21.1/assets/minecraft/textures/item/${v.toLowerCase()}.png`,
+            `https://assets.mcasset.cloud/1.21.1/assets/minecraft/textures/block/${v.toLowerCase()}.png`
+        );
+    });
+
+    let index = 0;
+    const tryNext = () => {
+        index++;
+        if (index < sources.length) {
+            img.src = sources[index];
+        } else {
+            img.onerror = null;
+            img.style.display = 'none';
+            if (img.nextElementSibling) {
+                img.nextElementSibling.style.display = 'block';
+                img.nextElementSibling.style.color = 'var(--accent-gold)';
+            }
+        }
+    };
+    img.onerror = tryNext;
+    img.src = sources[0];
+}
+
+document.querySelectorAll('img[data-item-id]').forEach(img => {
+    loadItemIcon(img, img.dataset.itemId);
+});
+</script>
 {{end}}

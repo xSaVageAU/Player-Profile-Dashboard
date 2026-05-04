@@ -5,7 +5,8 @@ type InventorySlot struct {
 	ID    string `json:"id"`
 	Count int    `json:"count"`
 	Name  string `json:"name"`
-	Icon  string `json:"icon"` // URL or CSS class
+	Icon        string `json:"icon"` // URL or CSS class
+	IsEnchanted bool   `json:"is_enchanted"`
 }
 
 // Stats represents various player statistics
