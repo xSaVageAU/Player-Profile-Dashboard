@@ -52,7 +52,11 @@ func getUsernameFromUUID(uuid string) (string, error) {
 // ProfileHandler handles requests to the player profile page
 func ProfileHandler(tmpl *template.Template, natsClient *nats.Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		uuid := "c3c090b3-cb31-4c8b-9c51-8c3000b6a14c"
+		uuid := r.URL.Query().Get("uuid")
+		if uuid == "" {
+			uuid = "c3c090b3-cb31-4c8b-9c51-8c3000b6a14c"
+		}
+		uuid = strings.TrimSpace(uuid)
 		username, err := getUsernameFromUUID(uuid)
 		if err != nil {
 			log.Printf("Username resolve failed: %v", err)

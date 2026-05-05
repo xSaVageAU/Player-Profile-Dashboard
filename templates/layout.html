@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{.Username}}'s Profile | Minecraft Viewer</title>
-    <meta name="description" content="View {{.Username}}'s Minecraft stats, inventory, and achievements.">
+    <title>{{.Username}}</title>
+    <meta name="description" content="Dashboard for {{.Username}}">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,8 +21,15 @@
 </head>
 <body>
     <header class="container">
-        <nav style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0;">
-            <div class="logo" style="font-size: 1.5rem; font-weight: 700; color: var(--accent-purple);">MCPROFILE</div>
+        <nav style="display: flex; justify-content: center; align-items: center; padding: 2rem 0;">
+            <form action="/" method="GET" style="display: flex; width: 100%; max-width: 600px; gap: 0.5rem;">
+                <input type="text" name="uuid" placeholder="Enter Player UUID..." required
+                    style="flex: 1; padding: 0.8rem 1.2rem; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); font-family: inherit; font-size: 1rem; outline: none; transition: border-color 0.2s;">
+                <button type="submit" 
+                    style="padding: 0.8rem 1.5rem; border-radius: 12px; background: var(--accent-purple); border: none; color: white; cursor: pointer; font-weight: 600; transition: opacity 0.2s;">
+                    Search
+                </button>
+            </form>
         </nav>
     </header>
 
@@ -30,9 +37,7 @@
         {{template "content" .}}
     </main>
 
-    <footer class="container" style="text-align: center; padding: 4rem 0; color: var(--text-secondary); font-size: 0.875rem;">
-        <p>&copy; 2026 Minecraft Profile Viewer. Not an official Minecraft product.</p>
-    </footer>
+    <footer style="padding: 4rem 0;"></footer>
 
     <!-- Scripts -->
     <script src="/static/js/viewer.js"></script>
